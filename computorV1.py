@@ -21,25 +21,49 @@ def get_factors_dic(s, dic):
         i += 1
 
 def show_form(dic):
-    # dic = sorted(dic)
-    # for key in dic:
-    #     if (float(key) > 2 and dic[key] != 0):
-    #         print("Degree is too high")
-    #     print(str(key) + " " + str(dic[key]))
-
+    delta = 0
     sorted_dic = sorted(dic)
+    deg = 0
     for key in sorted_dic:
-        print("Key : " + str(key) + "   Value : " + str(dic[key]))
-        print ("Polynomial degree: " + str(key))
-        if (key > 2 and dic[key] != 0):
-            print("The polynomial degree is strictly greater than 2, I can't solve.")
+        # print("Key : " + str(key) + "   Value : " + str(dic[key]))
+        if (key > deg and dic[key] != 0):
+            deg = key
+    print ("Polynomial degree: " + str(deg))
+    if (deg > 2):
+        print("The polynomial degree is strictly greater than 2, I can't solve.")
+        return ()
+    # ax2 + b2 + c = 0
+    #delta = b2 - 4ac
+    delta = dic[1]**2 - (4 * dic[2] * dic[0])
+    sqdelta = m.sqrt(abs(delta))
+    # print("delta = " + str(delta) + " sqrt(delta) = " + str(sqdelta))
 
-    # for key in sorted(dic):
-    #     print("Key : " + str(key) + "   Value : " + str(dic[key]))
+    if (deg == 2):
+        if (delta > 0):
+            print("Discriminant is strictly positive, the two solutions are:")
+            x1 = (-dic[1] - sqdelta) / (2 * dic[2])
+            x2 = (-dic[1] + sqdelta) / (2 * dic[2])
+            print("x1 = " + str(x1))
+            print("x2 = " + str(x2))
+        elif (delta == 0):
+            print("Discriminant is equal to 0, the solution is:")
+            x0 = (-dic[1]) / (2 * dic[2])
+            print("x0 = " + str(x0))
+        else:
+            print("Discriminant is strictly negative, the two complexe solutions are:")
+            x1_l = (-dic[1] / (2 * dic[2]))
+            x1_r = sqdelta / (2 * dic[2])
+            print("x1 = " + str(x1_l) + " + i * " + str(x1_r))
+            print("x2 = " + str(x1_l) + " - i * " + str(x1_r))
+            #x1 = (-b - i * sqrt(delta)) / (2 * a)
+            #x2 = (-b + i * sqrt(delta)) / (2 * a)
 
 
 def main():
     dic = {}
+    dic[0] = 0
+    dic[1] = 0
+    dic[2] = 0
     string = ' '.join(sys.argv[1:])
     print(string)
     s = string.split(' ')
@@ -48,5 +72,4 @@ def main():
 
     show_form(dic)
     
-
 main ()
