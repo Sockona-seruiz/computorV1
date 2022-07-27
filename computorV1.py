@@ -1,4 +1,3 @@
-from webbrowser import get
 import numpy as np
 import math as m
 import sys
@@ -24,10 +23,19 @@ def show_form(dic):
     delta = 0
     sorted_dic = sorted(dic)
     deg = 0
+    r_form = ""
     for key in sorted_dic:
         # print("Key : " + str(key) + "   Value : " + str(dic[key]))
         if (key > deg and dic[key] != 0):
             deg = key
+        if (dic[key] > 0):
+            r_form += " + " + str(dic[key]) + " * X^" + str(key) + " "
+        else:
+            r_form += " - " + str(dic[key])[1:] + " * X^" + str(key) + " "
+    if (r_form.startswith(" + ")):
+        r_form = r_form[3:]
+
+    print ("reduced form : " + r_form + " = 0")
     print ("Polynomial degree: " + str(deg))
     if (deg > 2):
         print("The polynomial degree is strictly greater than 2, I can't solve.")
