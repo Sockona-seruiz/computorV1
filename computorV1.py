@@ -1,4 +1,3 @@
-import numpy as np
 import math as m
 import sys
 
@@ -59,7 +58,7 @@ def show_form(dic):
             print("x1 = " + str(x1))
             print("x2 = " + str(x2))
         elif (delta == 0):
-            print("Discriminant is equal to 0, the solution is:")
+            print("Discriminant is equal to 0, the unique solution is:")
             x0 = (-dic[1]) / (2 * dic[2])
             print("x0 = " + str(x0))
         else:
