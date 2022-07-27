@@ -12,12 +12,16 @@ def get_factors_dic(s, dic):
         if ('X' in s[i]):
             if (i - 3 >= 0 and s[i - 3] == '-'):
                 neg = -1
-            if (int(s[i][2:]) in dic):
+            if ("." in s[i][2:]):
+                print ("Error : non whole coefficient")
+                return (-1)
+            elif (int(s[i][2:]) in dic):
                 dic[int(s[i][2:])] = float(s[i - 2]) * neg * reverse + float(dic[int(s[i][2:])])
             else:
                 dic[int(s[i][2:])] = float(s[i - 2]) * neg * reverse
             neg = 1
         i += 1
+    return (1)
 
 def show_form(dic):
     delta = 0
@@ -30,13 +34,14 @@ def show_form(dic):
             deg = key
         if (dic[key] > 0):
             r_form += " + " + str(dic[key]) + " * X^" + str(key) + " "
-        else:
+        elif (dic[key] < 0):
             r_form += " - " + str(dic[key])[1:] + " * X^" + str(key) + " "
     if (r_form.startswith(" + ")):
         r_form = r_form[3:]
-
-    print ("reduced form : " + r_form + " = 0")
-    print ("Polynomial degree: " + str(deg))
+    elif (r_form == ""):
+        r_form = "0 "
+    print ("Reduced form : " + r_form + "= 0" + "\n")
+    print ("Polynomial degree: " + str(deg) + "\n")
     if (deg > 2):
         print("The polynomial degree is strictly greater than 2, I can't solve.")
         return ()
@@ -65,6 +70,14 @@ def show_form(dic):
             print("x2 = " + str(x1_l) + " - i * " + str(x1_r))
             #x1 = (-b - i * sqrt(delta)) / (2 * a)
             #x2 = (-b + i * sqrt(delta)) / (2 * a)
+    elif (deg == 1):
+        print ("The solution is:")
+        print ("x = " + str(-dic[0] / dic[1]))
+    else:
+        if (dic[0] != 0):
+            print ("The equation has no solution")
+        else:
+            print ("Each real number is a solution")
 
 
 def main():
@@ -73,10 +86,11 @@ def main():
     dic[1] = 0
     dic[2] = 0
     string = ' '.join(sys.argv[1:])
-    print(string)
+    # print(string)
     s = string.split(' ')
 
-    get_factors_dic(s, dic)
+    if (get_factors_dic(s, dic) == -1):
+        return
 
     show_form(dic)
     
